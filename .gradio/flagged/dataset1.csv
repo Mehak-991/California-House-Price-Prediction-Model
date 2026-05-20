@@ -1,0 +1,4 @@
+Longitude,Latitude,Housing Median Age,Total Rooms,Total Bedrooms,Population,Households,"Median Income (in $10,000s)",Ocean Proximity,Predicted House Price,timestamp
+'-121.8,37.86,43,850,130,321,125,8.3,NEAR BAY,,2026-05-21 02:32:06.405549
+'-121.8,37.86,43,850,130,321,125,8.3,NEAR BAY,,2026-05-21 02:32:08.851896
+'-121.8,37.86,43,850,130,321,125,8.3,<1H OCEAN,,2026-05-21 02:32:26.826963

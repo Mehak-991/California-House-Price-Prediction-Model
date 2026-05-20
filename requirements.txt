@@ -1,0 +1,8 @@
+# Core dependencies for model inference
+scikit-learn>=1.3.0
+pandas>=2.0.0
+numpy>=1.24.0
+joblib>=1.3.0
+
+# Optional: For running the Gradio demo
+gradio>=4.0.0
