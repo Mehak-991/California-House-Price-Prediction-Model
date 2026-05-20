@@ -48,7 +48,7 @@ A machine learning model for predicting California house prices based on various
 ### Clone the repository
 
 ```bash
-git clone https://huggingface.co/YOUR_USERNAME/house-price-prediction
+git clone https://github.com/YOUR_USERNAME/house-price-prediction.git
 cd house-price-prediction
 ```
 
@@ -59,6 +59,14 @@ pip install -r requirements.txt
 ```
 
 ## 🚀 Quick Start
+
+### Start the Interactive Web App (Gradio)
+
+You can launch a clean, modern web interface to test out the predictions locally!
+
+```bash
+python app.py
+```
 
 ### Using the Python API
 
@@ -149,15 +157,6 @@ The model requires the following features for prediction:
 | `median_income` | float | Median income (in tens of thousands USD) | 8.3252 |
 | `ocean_proximity` | string | Proximity to ocean | One of: `<1H OCEAN`, `INLAND`, `NEAR OCEAN`, `NEAR BAY`, `ISLAND` |
 
-## 🎨 Gradio Demo
-
-A Gradio web interface is included in the notebook for interactive predictions:
-
-```python
-# Run the Gradio demo (from the notebook)
-import gradio as gr
-# See housepriceprediction.ipynb for the full demo code
-```
 
 ## 📈 Model Training Details
 
@@ -196,10 +195,11 @@ Top features contributing to predictions (from the trained model):
 
 ## 📦 Model Files
 
-- `house_price_model.joblib` (80+ MB) - Trained Random Forest model
-- `preprocessing_pipeline.joblib` (2+ KB) - Data preprocessing pipeline
+- `house_price_model.joblib` - Trained Random Forest model
+- `preprocessing_pipeline.joblib` - Data preprocessing pipeline
 - `inference.py` - Python inference API
-- `housepriceprediction.ipynb` - Training notebook with Gradio demo
+- `app.py` - Gradio Application interface
+- `housepriceprediction.ipynb` - Underlying Training notebook 
 
 ## 🔧 Requirements
 
@@ -208,7 +208,7 @@ Top features contributing to predictions (from the trained model):
 - pandas >= 2.0.0
 - numpy >= 1.24.0
 - joblib >= 1.3.0
-- gradio >= 4.0.0 (optional, for demo)
+- gradio >= 4.0.0 (optional, for web UI)
 
 See `requirements.txt` for complete dependencies.
 
@@ -231,16 +231,13 @@ Contributions are welcome! Feel free to:
 
 ## 👤 Author
 
-YOUR_USERNAME
-
-- GitHub: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
-- Hugging Face: [@YOUR_USERNAME](https://huggingface.co/YOUR_USERNAME)
+**YOUR_USERNAME**
+- GitHub: [https://github.com/YOUR_USERNAME](https://github.com/YOUR_USERNAME)
 
 ## 🌟 Acknowledgments
 
 - California Housing dataset from the 1990 U.S. Census
 - scikit-learn community for excellent ML tools
-- Hugging Face for model hosting platform
 
 ---
 
