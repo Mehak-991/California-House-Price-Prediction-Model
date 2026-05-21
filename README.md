@@ -48,7 +48,7 @@ A machine learning model for predicting California house prices based on various
 ### Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/house-price-prediction.git
+git clone https://github.com/Mehak-991/house-price-prediction.git
 cd house-price-prediction
 ```
 
@@ -232,7 +232,7 @@ Contributions are welcome! Feel free to:
 ## 👤 Author
 
 **YOUR_USERNAME**
-- GitHub: [https://github.com/YOUR_USERNAME](https://github.com/YOUR_USERNAME)
+- GitHub: [https://github.com/Mehak-991](https://github.com/Mehak-991)
 
 ## 🌟 Acknowledgments
 
