@@ -39,7 +39,19 @@ def predict_price(longitude, latitude, housing_median_age, total_rooms,
     
     return f"${prediction:,.2f}"
 
-# Create Gradio interface
+# Create Gradio interface with custom dark theme
+custom_theme = gr.themes.Default(
+    primary_hue="amber",
+    neutral_hue="slate",
+).set(
+    body_background_fill="#000000",
+    body_text_color="#FFFFFF",
+    block_background_fill="#111111",
+    block_label_text_color="#FFFFFF",
+    block_title_text_color="#FFFFFF",
+    input_background_fill="#222222",
+)
+
 demo = gr.Interface(
     fn=predict_price,
     inputs=[
@@ -60,6 +72,7 @@ demo = gr.Interface(
     outputs=gr.Textbox(label="Predicted House Price"),
     title="🏠 California House Price Prediction",
     description="Predict California house prices based on location and features",
+    theme=custom_theme,
     examples=[
         [-122.23, 37.88, 41, 880, 129, 322, 126, 8.3252, "NEAR BAY"],
         [-121.22, 39.43, 7, 1430, 244, 515, 226, 3.8462, "INLAND"],

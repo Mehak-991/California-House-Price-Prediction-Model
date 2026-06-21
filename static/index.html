@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏡 California House Price Predictor</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+        <header class="hero">
+            <h1>California <span class="highlight">House Price</span> Predictor</h1>
+            <p>Leveraging Machine Learning to estimate property values across the Golden State.</p>
+        </header>
+
+        <section class="predictor-card">
+            <form id="prediction-form" class="grid-form">
+                <div class="form-group row-1">
+                    <label for="longitude">Longitude</label>
+                    <input type="number" id="longitude" step="0.01" value="-122.23" required>
+                    <span class="hint">Range: -124.5 to -114.0</span>
+                </div>
+                <div class="form-group row-1">
+                    <label for="latitude">Latitude</label>
+                    <input type="number" id="latitude" step="0.01" value="37.88" required>
+                    <span class="hint">Range: 32.5 to 42.0</span>
+                </div>
+
+                <div class="form-group row-2">
+                    <label for="housing_median_age">Median Age</label>
+                    <input type="range" id="housing_median_age" min="1" max="52" value="41">
+                    <output for="housing_median_age">41 Years</output>
+                </div>
+                <div class="form-group row-2">
+                    <label for="median_income">Median Income</label>
+                    <input type="range" id="median_income" min="0.5" max="15.0" step="0.1" value="8.3">
+                    <output for="median_income">$83,000</output>
+                </div>
+
+                <div class="form-group">
+                    <label for="total_rooms">Total Rooms</label>
+                    <input type="number" id="total_rooms" value="880" required>
+                </div>
+                <div class="form-group">
+                    <label for="total_bedrooms">Total Bedrooms</label>
+                    <input type="number" id="total_bedrooms" value="129" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="population">Population</label>
+                    <input type="number" id="population" value="322" required>
+                </div>
+                <div class="form-group">
+                    <label for="households">Households</label>
+                    <input type="number" id="households" value="126" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="ocean_proximity">Ocean Proximity</label>
+                    <select id="ocean_proximity">
+                        <option value="NEAR BAY">NEAR BAY</option>
+                        <option value="INLAND">INLAND</option>
+                        <option value="<1H OCEAN"><1H OCEAN</option>
+                        <option value="NEAR OCEAN">NEAR OCEAN</option>
+                        <option value="ISLAND">ISLAND</option>
+                    </select>
+                </div>
+
+                <div class="form-actions full-width">
+                    <button type="submit" id="submit-btn" class="primary-btn">Calculate Prediction</button>
+                    <button type="reset" class="secondary-btn">Reset</button>
+                </div>
+            </form>
+
+            <div id="result-container" class="result-container hidden">
+                <div class="result-box">
+                    <h3>Estimated Property Value</h3>
+                    <div id="prediction-value" class="prediction-value">---</div>
+                    <p class="disclaimer">Based on regional trends and block-level data.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
