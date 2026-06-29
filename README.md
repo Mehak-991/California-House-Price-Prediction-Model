@@ -74,9 +74,9 @@ pip install -r requirements.txt
 
 ## 🚀 Quick Start
 
-You can run either the custom FastAPI web app or the Gradio interface.
+You can run the custom FastAPI web app.
 
-### Option A: Start the FastAPI Web App (Recommended)
+### Start the FastAPI Web App
 
 This launches the premium custom HTML/CSS/JavaScript web interface.
 
@@ -217,7 +217,6 @@ Top features contributing to predictions (from the trained model):
 - `inference.py` - Python inference API
 - `main.py` - FastAPI App server
 - `static/` - HTML/CSS/JavaScript client frontend interface
-- `app.py` - Gradio Application interface
 - `housepriceprediction.ipynb` - Underlying Training notebook 
 
 ## 🔧 Requirements
@@ -229,7 +228,6 @@ Top features contributing to predictions (from the trained model):
 - joblib >= 1.3.0
 - fastapi >= 0.115.0
 - uvicorn >= 0.29.0
-- gradio >= 4.0.0 (optional, for Gradio UI)
 
 See `requirements.txt` for complete dependencies.
 
