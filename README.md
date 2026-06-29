@@ -87,10 +87,7 @@ Open **`http://127.0.0.1:8001`** in your browser.
 
 ### Option B: Start the Gradio Interface
 
-```powershell
-python app.py
-```
-Open **`http://127.0.0.1:7860`** in your browser.
+
 
 ### Using the Python API
 
