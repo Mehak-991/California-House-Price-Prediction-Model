@@ -43,30 +43,54 @@ A machine learning model for predicting California house prices based on various
 - Property valuation for California regions
 - Educational demonstrations of regression modeling
 
-## 📥 Installation
+## 📥 Installation & Setup
 
-### Clone the repository
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/Mehak-991/house-price-prediction.git
 cd house-price-prediction
 ```
 
-### Install dependencies
+### 2. Set up a Virtual Environment (Python 3.12 recommended)
 
-```bash
+Using a virtual environment prevents version conflicts with global Python installations (specifically Python 3.14+):
+
+```powershell
+# Create virtual environment
+py -3.12 -m venv .venv
+
+# Activate virtual environment
+.venv\Scripts\activate
+```
+
+### 3. Install dependencies
+
+```powershell
 pip install -r requirements.txt
 ```
 
+---
+
 ## 🚀 Quick Start
 
-### Start the Interactive Web App (Gradio)
+You can run either the custom FastAPI web app or the Gradio interface.
 
-You can launch a clean, modern web interface to test out the predictions locally!
+### Option A: Start the FastAPI Web App (Recommended)
 
-```bash
+This launches the premium custom HTML/CSS/JavaScript web interface.
+
+```powershell
+python main.py
+```
+Open **`http://127.0.0.1:8001`** in your browser.
+
+### Option B: Start the Gradio Interface
+
+```powershell
 python app.py
 ```
+Open **`http://127.0.0.1:7860`** in your browser.
 
 ### Using the Python API
 
@@ -149,11 +173,11 @@ The model requires the following features for prediction:
 |---------|------|-------------|---------|
 | `longitude` | float | Longitude coordinate of the house | -122.23 |
 | `latitude` | float | Latitude coordinate of the house | 37.88 |
-| `housing_median_age` | float | Median age of houses in the district | 41.0 |
-| `total_rooms` | float | Total number of rooms in the district | 880.0 |
-| `total_bedrooms` | float | Total number of bedrooms in the district | 129.0 |
-| `population` | float | Total population in the district | 322.0 |
-| `households` | float | Total number of households in the district | 126.0 |
+| `housing_median_age` | integer | Median age of houses in the district | 41 |
+| `total_rooms` | integer | Total number of rooms in the district | 880 |
+| `total_bedrooms` | integer | Total number of bedrooms in the district | 129 |
+| `population` | integer | Total population in the district | 322 |
+| `households` | integer | Total number of households in the district | 126 |
 | `median_income` | float | Median income (in tens of thousands USD) | 8.3252 |
 | `ocean_proximity` | string | Proximity to ocean | One of: `<1H OCEAN`, `INLAND`, `NEAR OCEAN`, `NEAR BAY`, `ISLAND` |
 
@@ -193,22 +217,26 @@ Top features contributing to predictions (from the trained model):
 4. Housing Median Age
 5. Ocean Proximity
 
-## 📦 Model Files
+## 📦 Model & Web App Files
 
 - `house_price_model.joblib` - Trained Random Forest model
 - `preprocessing_pipeline.joblib` - Data preprocessing pipeline
 - `inference.py` - Python inference API
+- `main.py` - FastAPI App server
+- `static/` - HTML/CSS/JavaScript client frontend interface
 - `app.py` - Gradio Application interface
 - `housepriceprediction.ipynb` - Underlying Training notebook 
 
 ## 🔧 Requirements
 
-- Python 3.8+
-- scikit-learn >= 1.3.0
+- Python 3.12 (recommended) or 3.8+
+- scikit-learn == 1.4.2 (pinned to prevent unpickling errors)
 - pandas >= 2.0.0
 - numpy >= 1.24.0
 - joblib >= 1.3.0
-- gradio >= 4.0.0 (optional, for web UI)
+- fastapi >= 0.115.0
+- uvicorn >= 0.29.0
+- gradio >= 4.0.0 (optional, for Gradio UI)
 
 See `requirements.txt` for complete dependencies.
 

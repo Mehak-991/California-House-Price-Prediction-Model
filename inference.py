@@ -126,6 +126,9 @@ class HousePricePredictor:
         # Validate input
         self.validate_input(data)
         
+        # Ensure exact column order matching self.feature_names
+        data = data[self.feature_names]
+        
         # Prepare data using the preprocessing pipeline
         prepared_data = self.pipeline.transform(data)
         
