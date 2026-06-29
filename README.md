@@ -85,10 +85,6 @@ python main.py
 ```
 Open **`http://127.0.0.1:8001`** in your browser.
 
-### Option B: Start the Gradio Interface
-
-
-
 ### Using the Python API
 
 ```python
