@@ -20,19 +20,26 @@ class HousePricePredictor:
     and provides methods for making predictions on new housing data.
     """
     
-    def __init__(self, model_path: str = "house_price_model.joblib", 
-                 pipeline_path: str = "preprocessing_pipeline.joblib"):
+    def __init__(self, model_dir: Union[str, Path] = None):
         """
-        Initialize the predictor by loading the model and preprocessing pipeline.
+        Initialize the predictor by setting paths.
         
         Args:
-            model_path: Path to the trained model joblib file
-            pipeline_path: Path to the preprocessing pipeline joblib file
+            model_dir: Path to the directory containing model files
         """
-        self.model_path = Path(model_path)
-        self.pipeline_path = Path(pipeline_path)
+        self.base_dir = Path(__file__).resolve().parent
+        self.model_dir = Path(model_dir) if model_dir else self.base_dir / "model"
+        
+        self.model_path = self.model_dir / "model.pkl"
+        self.encoder_path = self.model_dir / "encoder.pkl"
+        self.scaler_path = self.model_dir / "scaler.pkl"
+        self.pipeline_path = self.model_dir / "pipeline.pkl"
+        
         self.model = None
         self.pipeline = None
+        self.encoder = None
+        self.scaler = None
+        
         self.feature_names = [
             'longitude', 'latitude', 'housing_median_age', 'total_rooms',
             'total_bedrooms', 'population', 'households', 'median_income',
@@ -41,16 +48,69 @@ class HousePricePredictor:
         self.valid_ocean_proximity = ['<1H OCEAN', 'INLAND', 'NEAR OCEAN', 'NEAR BAY', 'ISLAND']
         
     def load(self):
-        """Load the model and preprocessing pipeline from disk."""
-        if not self.model_path.exists():
-            raise FileNotFoundError(f"Model file not found: {self.model_path}")
-        if not self.pipeline_path.exists():
-            raise FileNotFoundError(f"Pipeline file not found: {self.pipeline_path}")
+        """Load the model, encoder, scaler, and pipeline from disk."""
+        # Check if files exist. If not, try auto-migration
+        paths = {
+            "model.pkl": self.model_path,
+            "encoder.pkl": self.encoder_path,
+            "scaler.pkl": self.scaler_path,
+            "pipeline.pkl": self.pipeline_path
+        }
+        
+        missing = [name for name, path in paths.items() if not path.exists()]
+        
+        if missing:
+            # Try to auto-migrate from joblib files in parent/base directory if they exist
+            joblib_model_path = self.base_dir / "house_price_model.joblib"
+            joblib_pipeline_path = self.base_dir / "preprocessing_pipeline.joblib"
             
+            if joblib_model_path.exists() and joblib_pipeline_path.exists():
+                print("🔄 Migrating joblib model files to PKL format...")
+                try:
+                    self.model_dir.mkdir(parents=True, exist_ok=True)
+                    
+                    # Load from joblib
+                    forest_reg = joblib.load(joblib_model_path)
+                    full_pipeline = joblib.load(joblib_pipeline_path)
+                    
+                    # Extract components
+                    scaler = full_pipeline.named_transformers_['num'].named_steps['std_scaler']
+                    encoder = full_pipeline.named_transformers_['cat']
+                    
+                    # Dump as PKLs
+                    joblib.dump(forest_reg, self.model_path)
+                    joblib.dump(full_pipeline, self.pipeline_path)
+                    joblib.dump(encoder, self.encoder_path)
+                    joblib.dump(scaler, self.scaler_path)
+                    print("✅ Migration completed successfully!")
+                    
+                    # Re-clear missing list since files are now created
+                    missing = []
+                except Exception as migrate_err:
+                    print(f"⚠️  Auto-migration failed: {migrate_err}")
+            
+        # If still missing, raise a descriptive FileNotFoundError
+        if missing:
+            missing_details = ", ".join([f"'{name}' (expected at: {paths[name]})" for name in missing])
+            error_details = (
+                f"Missing required ML model files: {missing_details}.\n"
+                f"Please ensure they are located in the model directory: {self.model_dir}.\n"
+                f"Alternatively, place the original 'house_price_model.joblib' and 'preprocessing_pipeline.joblib' "
+                f"files in the base directory '{self.base_dir}' to trigger automatic migration."
+            )
+            raise FileNotFoundError(error_details)
+            
+        # Load the components
         self.model = joblib.load(self.model_path)
         self.pipeline = joblib.load(self.pipeline_path)
-        print(f"✅ Model loaded successfully from {self.model_path}")
-        print(f"✅ Pipeline loaded successfully from {self.pipeline_path}")
+        self.encoder = joblib.load(self.encoder_path)
+        self.scaler = joblib.load(self.scaler_path)
+        
+        # Log model components loaded
+        print(f"✅ Loaded model from {self.model_path}")
+        print(f"✅ Loaded pipeline from {self.pipeline_path}")
+        print(f"✅ Loaded encoder from {self.encoder_path}")
+        print(f"✅ Loaded scaler from {self.scaler_path}")
         
     def validate_input(self, data: pd.DataFrame):
         """
@@ -112,7 +172,7 @@ class HousePricePredictor:
             >>> prediction = predictor.predict(data)
             >>> print(f"Predicted price: ${prediction[0]:,.2f}")
         """
-        if self.model is None or self.pipeline is None:
+        if self.model is None or self.pipeline is None or self.encoder is None or self.scaler is None:
             raise RuntimeError("Model not loaded. Call load() first.")
         
         # Convert input to DataFrame if needed
@@ -176,19 +236,17 @@ class HousePricePredictor:
 
 
 # Convenience functions for quick use
-def load_model(model_path: str = "house_price_model.joblib",
-               pipeline_path: str = "preprocessing_pipeline.joblib") -> HousePricePredictor:
+def load_model(model_dir: Union[str, Path] = None) -> HousePricePredictor:
     """
     Load and return a HousePricePredictor instance.
     
     Args:
-        model_path: Path to the trained model joblib file
-        pipeline_path: Path to the preprocessing pipeline joblib file
+        model_dir: Path to the directory containing model files
         
     Returns:
         Loaded HousePricePredictor instance
     """
-    predictor = HousePricePredictor(model_path, pipeline_path)
+    predictor = HousePricePredictor(model_dir)
     predictor.load()
     return predictor
 

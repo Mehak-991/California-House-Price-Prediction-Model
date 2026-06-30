@@ -27,21 +27,24 @@ document.addEventListener('DOMContentLoaded', () => {
         for (const [id, rules] of Object.entries(validationRules)) {
             const input = document.getElementById(id);
             const errorSpan = document.getElementById(`${id}-error`);
-            if (!input) continue;
-
-            const val = input.value;
-
-            // Handle empty/unselected state
-            if (val === "" || val === null || val === undefined) {
-                isFormValid = false;
-                input.classList.remove('invalid');
-                if (errorSpan) errorSpan.style.display = 'none';
+            if (!input) {
+                console.log(`Field not found: ${id}`);
                 continue;
             }
 
-            // Select field validation
-            if (id === 'ocean_proximity') {
+            const val = input.value;
+            let numVal = NaN;
+            let isFieldValid = true;
+
+            // Handle empty/unselected state
+            if (val === "" || val === null || val === undefined) {
+                isFieldValid = false;
+                isFormValid = false;
+                input.classList.remove('invalid');
+                if (errorSpan) errorSpan.style.display = 'none';
+            } else if (id === 'ocean_proximity') {
                 if (val === "") {
+                    isFieldValid = false;
                     isFormValid = false;
                     input.classList.add('invalid');
                     if (errorSpan) errorSpan.style.display = 'block';
@@ -49,31 +52,31 @@ document.addEventListener('DOMContentLoaded', () => {
                     input.classList.remove('invalid');
                     if (errorSpan) errorSpan.style.display = 'none';
                 }
-                continue;
-            }
-
-            // Numeric field validation
-            const numVal = parseFloat(val);
-            let isFieldValid = true;
-
-            if (isNaN(numVal)) {
-                isFieldValid = false;
             } else {
-                if (rules.min !== undefined && numVal < rules.min) isFieldValid = false;
-                if (rules.max !== undefined && numVal > rules.max) isFieldValid = false;
-                if (rules.isInt && (!Number.isInteger(numVal) || numVal % 1 !== 0)) isFieldValid = false;
+                // Numeric field validation
+                numVal = parseFloat(val);
+                if (isNaN(numVal)) {
+                    isFieldValid = false;
+                } else {
+                    if (rules.min !== undefined && numVal < rules.min) isFieldValid = false;
+                    if (rules.max !== undefined && numVal > rules.max) isFieldValid = false;
+                    if (rules.isInt && (!Number.isInteger(numVal) || numVal % 1 !== 0)) isFieldValid = false;
+                }
+
+                if (isFieldValid) {
+                    input.classList.remove('invalid');
+                    if (errorSpan) errorSpan.style.display = 'none';
+                } else {
+                    isFormValid = false;
+                    input.classList.add('invalid');
+                    if (errorSpan) errorSpan.style.display = 'block';
+                }
             }
 
-            if (isFieldValid) {
-                input.classList.remove('invalid');
-                if (errorSpan) errorSpan.style.display = 'none';
-            } else {
-                isFormValid = false;
-                input.classList.add('invalid');
-                if (errorSpan) errorSpan.style.display = 'block';
-            }
+            console.log(`Field: ${id} | Value: "${val}" | Parsed Numeric: ${numVal} | Field Valid: ${isFieldValid}`);
         }
 
+        console.log("Form Valid:", isFormValid);
         submitBtn.disabled = !isFormValid;
     }
 
