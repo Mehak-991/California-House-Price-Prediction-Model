@@ -74,15 +74,19 @@ pip install -r requirements.txt
 
 ## 🚀 Quick Start
 
-You can run the custom FastAPI web app.
+The ML model automatically loads when the FastAPI application starts, ensuring that predictions are fast and ready from the first request.
 
 ### Start the FastAPI Web App
 
-This launches the premium custom HTML/CSS/JavaScript web interface.
+This launches the premium custom HTML/CSS/JavaScript web interface:
 
 ```powershell
+# Run the FastAPI server
 python main.py
 ```
+
+Upon startup, the backend verifies that the model files (`model.pkl`, `pipeline.pkl`, `encoder.pkl`, `scaler.pkl`) exist in the `model/` directory using cross-platform `pathlib.Path` resolutions. If they are missing but the legacy `.joblib` files are in the root directory, it will automatically migrate them.
+
 Open **`http://127.0.0.1:8001`** in your browser.
 
 ### Using the Python API
@@ -212,12 +216,18 @@ Top features contributing to predictions (from the trained model):
 
 ## 📦 Model & Web App Files
 
-- `house_price_model.joblib` - Trained Random Forest model
-- `preprocessing_pipeline.joblib` - Data preprocessing pipeline
-- `inference.py` - Python inference API
-- `main.py` - FastAPI App server
+- `model/` - Model Artifacts Directory (Created automatically on startup if missing)
+  - `model/model.pkl` - Trained Random Forest model
+  - `model/pipeline.pkl` - Data preprocessing ColumnTransformer pipeline
+  - `model/encoder.pkl` - Trained One-Hot encoder component
+  - `model/scaler.pkl` - Trained StandardScaler component
+- `house_price_model.joblib` - Trained Random Forest model (Legacy format, used for migration)
+- `preprocessing_pipeline.joblib` - Data preprocessing pipeline (Legacy format, used for migration)
+- `inference.py` - Python inference API with path check & auto-migration
+- `main.py` - FastAPI App server loading model on startup event
 - `static/` - HTML/CSS/JavaScript client frontend interface
 - `housepriceprediction.ipynb` - Underlying Training notebook 
+- `requirements.txt` - Python project dependencies
 
 ## 🔧 Requirements
 
@@ -226,8 +236,9 @@ Top features contributing to predictions (from the trained model):
 - pandas >= 2.0.0
 - numpy >= 1.24.0
 - joblib >= 1.3.0
-- fastapi >= 0.115.0
-- uvicorn >= 0.29.0
+- fastapi >= 0.100.0
+- uvicorn >= 0.22.0
+- pydantic >= 2.0.0
 
 See `requirements.txt` for complete dependencies.
 
