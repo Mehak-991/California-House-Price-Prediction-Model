@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+function init() {
     const form = document.getElementById('prediction-form');
     const resultContainer = document.getElementById('result-container');
     const predictionValue = document.getElementById('prediction-value');
@@ -221,4 +221,10 @@ document.addEventListener('DOMContentLoaded', () => {
             validateForm();
         }, 0);
     });
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
