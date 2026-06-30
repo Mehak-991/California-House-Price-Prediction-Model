@@ -24,6 +24,9 @@ pipeline_tag: tabular-regression
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3+-orange.svg)](https://scikit-learn.org/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Render-46E3B7?logo=render&logoColor=white)](https://california-house-price-prediction-model-3.onrender.com)
+
+> 🌐 **[Live Demo → https://california-house-price-prediction-model-3.onrender.com](https://california-house-price-prediction-model-3.onrender.com)**
 
 A machine learning model for predicting California house prices based on various features like location, age, size, and proximity to the ocean. This model uses a **Random Forest Regressor** trained on the California Housing dataset and achieves strong predictive performance.
 
@@ -88,6 +91,14 @@ python main.py
 Upon startup, the backend verifies that the model files (`model.pkl`, `pipeline.pkl`, `encoder.pkl`, `scaler.pkl`) exist in the `model/` directory using cross-platform `pathlib.Path` resolutions. If they are missing but the legacy `.joblib` files are in the root directory, it will automatically migrate them.
 
 Open **`http://127.0.0.1:8001`** in your browser.
+
+### 🌐 Live Demo (Hosted on Render)
+
+The project is deployed and publicly accessible at:
+
+**[https://california-house-price-prediction-model-3.onrender.com](https://california-house-price-prediction-model-3.onrender.com)**
+
+No setup required — just open the link, fill in the form, and click **Calculate Prediction**.
 
 ### Using the Python API
 
